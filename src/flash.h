@@ -16,6 +16,6 @@ typedef enum
 } flash_status;
 
 flash_status flash_erase(uint32_t address);
-flash_status flash_write(uint32_t address, uint32_t *data, uint32_t length);
+flash_status flash_write(uint32_t address, const uint8_t *data, uint32_t length);
 
 const char *flash_part_number(const uint8_t *id);

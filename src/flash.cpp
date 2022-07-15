@@ -105,11 +105,19 @@ const char *flash_part_number(const uint8_t *id)
 flash_status flash_erase(uint32_t address)
 {
     SerialFlash.eraseAll();
+
+    while (!SerialFlash.ready())
+        ;
+
     return FLASH_OK;
 }
 
-flash_status flash_write(uint32_t address, uint32_t *data, uint32_t length)
+flash_status flash_write(uint32_t address, const uint8_t *data, uint32_t length)
 {
     SerialFlash.write(address, data, length);
+
+    while (!SerialFlash.ready())
+        ;
+
     return FLASH_OK;
 }

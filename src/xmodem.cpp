@@ -213,7 +213,7 @@ static xmodem_status xmodem_handle_packet(uint8_t header)
   }
 
   /* Do the actual flashing (if there weren't any errors). */
-  if ((X_MODEM_OK == status) && (FLASH_OK != flash_write(xmodem_actual_flash_address, (uint32_t *)&received_packet_data[0u], (uint32_t)size / 4u)))
+  if ((X_MODEM_OK == status) && (FLASH_OK != flash_write(xmodem_actual_flash_address, received_packet_data, size)))
   {
     /* Flashing error. */
     status |= X_ERROR_FLASH;
