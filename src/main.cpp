@@ -18,17 +18,29 @@
 #define RESET_PIN 2
 #define CS_PIN 15
 
+bool spi_is_init = false;
 SPIClass FLASH_SPI_PORT(HSPI);
 
 void setup()
 {
   pinMode(RESET_PIN, OUTPUT);
-  digitalWrite(RESET_PIN, LOW);
 
   Serial.begin(115200);
+}
+
+void spi_init()
+{
+  if (spi_is_init)
+  {
+    return;
+  }
+
+  digitalWrite(RESET_PIN, LOW);
+  delay(10);
 
   FLASH_SPI_PORT.setFrequency(10000000);
   SerialFlash.begin(FLASH_SPI_PORT, CS_PIN);
+  spi_is_init = true;
 }
 
 void print_chip_info()
@@ -67,11 +79,22 @@ void loop()
   switch (input)
   {
   case 'p':
+    spi_init();
     print_chip_info();
     break;
 
   case 'f':
+    spi_init();
     xmodem_receive();
+    // Fallthrough
+
+  case 'e':
+    Serial.println("Exiting...");
+    spi_is_init = false;
+    FLASH_SPI_PORT.end();
+    delay(10);
+
+    digitalWrite(RESET_PIN, HIGH);
     break;
 
   default:
