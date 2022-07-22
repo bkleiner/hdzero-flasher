@@ -87,6 +87,7 @@ void loop()
     spi_init();
     xmodem_receive();
     // Fallthrough
+    break;
 
   case 'e':
     Serial.println("Exiting...");
