@@ -16,14 +16,28 @@
 */
 
 #define RESET_PIN 2
+#define SCK_PIN 14
+#define MISO_PIN 12
+#define MOSI_PIN 13
 #define CS_PIN 15
 
 bool spi_is_init = false;
 SPIClass FLASH_SPI_PORT(HSPI);
 
+void relase_pins()
+{
+  digitalWrite(RESET_PIN, HIGH);
+
+  pinMode(SCK_PIN, INPUT);
+  pinMode(MISO_PIN, INPUT);
+  pinMode(MOSI_PIN, INPUT);
+  pinMode(CS_PIN, INPUT);
+}
+
 void setup()
 {
   pinMode(RESET_PIN, OUTPUT);
+  relase_pins();
 
   Serial.begin(115200);
 }
@@ -94,7 +108,7 @@ void loop()
     FLASH_SPI_PORT.end();
     delay(10);
 
-    digitalWrite(RESET_PIN, HIGH);
+    relase_pins();
     break;
 
   default:
