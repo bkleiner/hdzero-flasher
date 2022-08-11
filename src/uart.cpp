@@ -29,11 +29,13 @@ uart_status uart_receive(uint8_t *data, uint16_t length)
 uart_status uart_transmit_str(uint8_t *data)
 {
     Serial.write((const char *)data);
+    Serial.flush();
     return UART_OK;
 }
 
 uart_status uart_transmit_ch(uint8_t data)
 {
     Serial.write(data);
+    Serial.flush();
     return UART_OK;
 }

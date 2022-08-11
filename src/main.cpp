@@ -15,7 +15,7 @@
 7 RTSN_5680
 */
 
-#define RESET_PIN 2
+#define RESET_PIN 4
 #define SCK_PIN 14
 #define MISO_PIN 12
 #define MOSI_PIN 13
@@ -36,6 +36,7 @@ void relase_pins()
 
 void setup()
 {
+  pinMode(LED_BUILTIN, OUTPUT);
   pinMode(RESET_PIN, OUTPUT);
   relase_pins();
 
@@ -84,9 +85,13 @@ void print_chip_info()
 
 void loop()
 {
-  while (Serial.available() == 0)
+  digitalWrite(LED_BUILTIN, HIGH);
+  if (Serial.available() == 0)
   {
-    delay(10);
+    delay(50);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(50);
+    return;
   }
 
   const uint8_t input = Serial.read();
@@ -115,4 +120,6 @@ void loop()
     Serial.printf("Unknown command %c\r\n", input);
     break;
   }
+
+  Serial.flush();
 }
