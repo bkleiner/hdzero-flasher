@@ -86,7 +86,7 @@ void loop()
 {
   while (Serial.available() == 0)
   {
-    delay(1);
+    delay(10);
   }
 
   const uint8_t input = Serial.read();
